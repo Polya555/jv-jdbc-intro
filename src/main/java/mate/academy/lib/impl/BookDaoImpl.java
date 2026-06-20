@@ -58,7 +58,7 @@ public class BookDaoImpl implements BookDao {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Book book = new Book();
-                book.setId(resultSet.getLong("id"));
+                book.setId(resultSet.getObject("id", Long.class));
                 book.setTitle(resultSet.getString("title"));
                 book.setPrice(resultSet.getBigDecimal("price"));
                 return Optional.of(book);
@@ -78,14 +78,14 @@ public class BookDaoImpl implements BookDao {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Book book = new Book();
-                book.setId(resultSet.getLong("id"));
+                book.setId(resultSet.getObject("id", Long.class));
                 book.setTitle(resultSet.getString("title"));
                 book.setPrice(resultSet.getBigDecimal("price"));
                 books.add(book);
             }
             return books;
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't find anything", e);
+            throw new DataProcessingException("Can't get all books", e);
         }
     }
 
